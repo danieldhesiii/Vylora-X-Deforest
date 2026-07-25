@@ -1,0 +1,233 @@
+@import "tailwindcss";
+
+/* ==================================================================
+   Deforest — "Canopy" design system
+   Deep forest green · warm paper · signal mint · satellite traffic-light
+   A calm, trustworthy compliance tool — not a loud startup.
+================================================================== */
+
+:root {
+  /* surfaces */
+  --paper: #f4f6f1;
+  --paper-soft: #fbfcf9;
+  --paper-deep: #e9ede2;
+
+  /* forest / brand */
+  --forest-deep: #08281c;
+  --forest: #0e3b29;
+  --forest-mid: #17513a;
+  --moss: #3a6b4f;
+  --sage: #6f8f7a;
+  --sage-soft: #aec4b2;
+
+  /* signal accent (CTAs, highlights) */
+  --signal: #16a34a;
+  --signal-bright: #22c55e;
+  --signal-soft: #7fe0a3;
+
+  /* traffic-light (Whisp verdicts — never softened) */
+  --clear: #1f9d55;
+  --review: #d99413;
+  --flag: #d64545;
+
+  /* ink / text */
+  --ink: #0b1f17;
+  --muted: #4f6357;
+  --faint: #7c8c82;
+
+  --line: color-mix(in srgb, var(--forest) 12%, transparent);
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-soft: var(--paper-soft);
+  --color-paper-deep: var(--paper-deep);
+
+  --color-forest-deep: var(--forest-deep);
+  --color-forest: var(--forest);
+  --color-forest-mid: var(--forest-mid);
+  --color-moss: var(--moss);
+  --color-sage: var(--sage);
+  --color-sage-soft: var(--sage-soft);
+
+  --color-signal: var(--signal);
+  --color-signal-bright: var(--signal-bright);
+  --color-signal-soft: var(--signal-soft);
+
+  --color-clear: var(--clear);
+  --color-review: var(--review);
+  --color-flag: var(--flag);
+
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+
+  --color-background: var(--paper);
+  --color-foreground: var(--ink);
+
+  --font-display: var(--font-display), "Space Grotesk", system-ui, sans-serif;
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+
+  --radius-3xl: 1.5rem;
+  --radius-4xl: 2rem;
+  --radius-5xl: 2.75rem;
+
+  --animate-marquee: marquee 42s linear infinite;
+  --animate-float: float 9s ease-in-out infinite;
+  --animate-pulse-ring: pulse-ring 2.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-sweep: sweep 6s linear infinite;
+  --animate-shimmer: shimmer 3s linear infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-16px) rotate(2deg); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  70% { transform: scale(1.7); opacity: 0; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+
+/* radar sweep for the satellite motif */
+@keyframes sweep {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+* {
+  border-color: var(--line);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+  -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+img, svg, video, iframe {
+  max-width: 100%;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--signal) 30%, transparent);
+  color: var(--forest-deep);
+}
+
+::-webkit-scrollbar { width: 11px; }
+::-webkit-scrollbar-track { background: var(--paper-deep); }
+::-webkit-scrollbar-thumb {
+  background: var(--sage);
+  border-radius: 999px;
+  border: 3px solid var(--paper-deep);
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display), system-ui, sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+
+  .eyebrow {
+    font-family: var(--font-sans), sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+
+  /* animated signal-green gradient text for the hero accent word */
+  .signal-text {
+    background: linear-gradient(
+      100deg,
+      var(--signal) 0%,
+      var(--signal-bright) 45%,
+      var(--signal-soft) 50%,
+      var(--signal) 70%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: var(--animate-shimmer);
+  }
+
+  .glass {
+    background: color-mix(in srgb, var(--paper-soft) 76%, transparent);
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+  }
+
+  .glass-dark {
+    background: color-mix(in srgb, var(--forest-deep) 72%, transparent);
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+  }
+
+  .ring-hairline {
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--forest) 14%, transparent);
+  }
+
+  /* faint contour / topographic map lines — the deforestation motif */
+  .topo {
+    background-image:
+      radial-gradient(circle at 50% 50%, transparent 0, transparent 38%, color-mix(in srgb, var(--forest) 5%, transparent) 38.5%, transparent 39.5%),
+      radial-gradient(circle at 50% 50%, transparent 0, transparent 48%, color-mix(in srgb, var(--forest) 5%, transparent) 48.5%, transparent 49.5%),
+      radial-gradient(circle at 50% 50%, transparent 0, transparent 58%, color-mix(in srgb, var(--forest) 5%, transparent) 58.5%, transparent 59.5%),
+      radial-gradient(circle at 50% 50%, transparent 0, transparent 68%, color-mix(in srgb, var(--forest) 5%, transparent) 68.5%, transparent 69.5%);
+  }
+
+  /* dotted grid used behind dark sections */
+  .grid-dots {
+    background-image: radial-gradient(
+      color-mix(in srgb, var(--signal-soft) 22%, transparent) 1px,
+      transparent 1px
+    );
+    background-size: 26px 26px;
+  }
+
+  .noise {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+  }
+
+  .shadow-soft {
+    box-shadow: 0 1px 2px rgba(8, 40, 28, 0.04), 0 8px 24px -12px rgba(8, 40, 28, 0.18);
+  }
+  .shadow-lift {
+    box-shadow: 0 2px 4px rgba(8, 40, 28, 0.05), 0 24px 48px -20px rgba(8, 40, 28, 0.28);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
