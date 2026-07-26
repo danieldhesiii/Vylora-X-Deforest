@@ -16,11 +16,18 @@ export const site = {
   domain: "deforest.eu",
 
   // --- Contact / CTA destinations --------------------------------
-  // TODO: swap these for the real signup app + booking link + inbox before launch.
+  // "Book a demo" scrolls to the on-page form (#book-demo) which posts
+  // to Formspree. Sign up / waitlist are still placeholder mailtos.
+  // TODO: swap the signup app link + inbox before launch.
   signupUrl: "mailto:hello@deforest.eu?subject=Deforest%20sign%20up",
-  demoUrl: "mailto:hello@deforest.eu?subject=Deforest%20demo",
+  demoUrl: "#book-demo",
   waitlistUrl: "mailto:hello@deforest.eu?subject=Deforest%20early%20access",
   email: "hello@deforest.eu",
+
+  // Formspree form endpoint for the "Book a demo" form.
+  // TODO: replace REPLACE_WITH_FORM_ID with your real Formspree form ID
+  // (Formspree dashboard → your form → the id in https://formspree.io/f/<id>).
+  formspreeEndpoint: "https://formspree.io/f/REPLACE_WITH_FORM_ID",
 
   socials: {
     linkedin: "https://www.linkedin.com/",
@@ -408,6 +415,27 @@ export const finalCta = {
 } as const;
 
 // -------------------------------------------------------------------
+// Book-a-demo form (posts to Formspree).
+// -------------------------------------------------------------------
+export const bookDemo = {
+  eyebrow: "Book a demo",
+  title: "See Deforest on your own supply chain.",
+  body: "Tell us a little about your business and we'll set up a 15-minute walkthrough for your exact situation, operator or downstream.",
+  roles: [
+    "Operator (first importer into the EU)",
+    "Downstream buyer or trader",
+    "Not sure which one I am",
+  ],
+  submitLabel: "Request my demo",
+  success: {
+    title: "Thanks, that's booked in.",
+    body: "We'll be in touch within one working day to arrange your walkthrough. Check your inbox for a confirmation.",
+  },
+  error:
+    "Something went wrong sending that. Please try again, or email hello@deforest.eu directly.",
+} as const;
+
+// -------------------------------------------------------------------
 // Footer.
 // -------------------------------------------------------------------
 export const footer = {
@@ -435,7 +463,7 @@ export const footer = {
     {
       title: "Company",
       links: [
-        { label: "Book a demo", href: "#contact" },
+        { label: "Book a demo", href: "#book-demo" },
         { label: "Early access", href: "#contact" },
         { label: "hello@deforest.eu", href: "mailto:hello@deforest.eu" },
       ],

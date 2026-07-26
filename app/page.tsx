@@ -10,6 +10,7 @@ import { Trust } from "@/components/trust";
 import { Pricing } from "@/components/pricing";
 import { Faq } from "@/components/faq";
 import { FinalCta } from "@/components/final-cta";
+import { BookDemo } from "@/components/book-demo";
 import { Footer } from "@/components/footer";
 import { site, faqs, pricing } from "@/lib/site";
 
@@ -62,6 +63,7 @@ export default function Home() {
         <Pricing />
         <Faq />
         <FinalCta />
+        <BookDemo />
       </main>
       <Footer />
     </>
