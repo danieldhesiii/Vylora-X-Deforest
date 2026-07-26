@@ -71,7 +71,7 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-paper text-ink">
-        <ClerkProvider>{children}</ClerkProvider>
+        <ClerkProvider afterSignOutUrl="/">{children}</ClerkProvider>
       </body>
     </html>
   );
