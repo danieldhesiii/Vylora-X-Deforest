@@ -25,9 +25,7 @@ export const site = {
   email: "hello@deforest.eu",
 
   // Formspree form endpoint for the "Book a demo" form.
-  // TODO: replace REPLACE_WITH_FORM_ID with your real Formspree form ID
-  // (Formspree dashboard → your form → the id in https://formspree.io/f/<id>).
-  formspreeEndpoint: "https://formspree.io/f/REPLACE_WITH_FORM_ID",
+  formspreeEndpoint: "https://formspree.io/f/xkodkwzl",
 
   socials: {
     linkedin: "https://www.linkedin.com/",
