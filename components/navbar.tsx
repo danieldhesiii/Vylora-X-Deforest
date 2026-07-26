@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Menu, X, CalendarClock } from "lucide-react";
+import { UserButton, useUser } from "@clerk/nextjs";
 import { Logo } from "@/components/decor";
 import { site, navLinks } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -10,6 +11,7 @@ import { cn } from "@/lib/utils";
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { isSignedIn, isLoaded } = useUser();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -53,11 +55,38 @@ export function Navbar() {
           ))}
           <a
             href={site.demoUrl}
-            className="inline-flex items-center gap-2 rounded-full bg-forest px-5 py-2.5 text-sm font-semibold text-paper-soft shadow-lg shadow-forest/20 transition-all hover:bg-forest-deep hover:shadow-forest/30"
+            className="inline-flex items-center gap-2 rounded-full border border-forest/15 px-4 py-2 text-sm font-semibold text-forest transition-all hover:bg-forest/5"
           >
             <CalendarClock className="h-4 w-4" />
             Book a demo
           </a>
+          {isLoaded && !isSignedIn && (
+            <>
+              <a
+                href="/sign-in"
+                className="text-sm font-medium text-forest/75 transition-colors hover:text-forest"
+              >
+                Sign in
+              </a>
+              <a
+                href="/sign-up"
+                className="inline-flex items-center gap-2 rounded-full bg-forest px-5 py-2.5 text-sm font-semibold text-paper-soft shadow-lg shadow-forest/20 transition-all hover:bg-forest-deep hover:shadow-forest/30"
+              >
+                Get started
+              </a>
+            </>
+          )}
+          {isLoaded && isSignedIn && (
+            <>
+              <a
+                href="/dashboard"
+                className="inline-flex items-center gap-2 rounded-full bg-forest px-5 py-2.5 text-sm font-semibold text-paper-soft shadow-lg shadow-forest/20 transition-all hover:bg-forest-deep hover:shadow-forest/30"
+              >
+                Dashboard
+              </a>
+              <UserButton afterSignOutUrl="/" />
+            </>
+          )}
         </div>
 
         <button
@@ -92,11 +121,38 @@ export function Navbar() {
               <a
                 href={site.demoUrl}
                 onClick={() => setOpen(false)}
-                className="mt-2 inline-flex items-center justify-center gap-2 rounded-2xl bg-forest px-5 py-4 text-base font-semibold text-paper-soft"
+                className="mt-2 inline-flex items-center justify-center gap-2 rounded-2xl border border-forest/15 px-5 py-4 text-base font-semibold text-forest"
               >
                 <CalendarClock className="h-5 w-5" />
                 Book a demo
               </a>
+              {isLoaded && !isSignedIn && (
+                <>
+                  <a
+                    href="/sign-in"
+                    onClick={() => setOpen(false)}
+                    className="mt-2 rounded-2xl px-4 py-3.5 text-center text-lg font-medium text-forest transition-colors hover:bg-forest/5"
+                  >
+                    Sign in
+                  </a>
+                  <a
+                    href="/sign-up"
+                    onClick={() => setOpen(false)}
+                    className="mt-2 inline-flex items-center justify-center gap-2 rounded-2xl bg-forest px-5 py-4 text-base font-semibold text-paper-soft"
+                  >
+                    Get started
+                  </a>
+                </>
+              )}
+              {isLoaded && isSignedIn && (
+                <a
+                  href="/dashboard"
+                  onClick={() => setOpen(false)}
+                  className="mt-2 inline-flex items-center justify-center gap-2 rounded-2xl bg-forest px-5 py-4 text-base font-semibold text-paper-soft"
+                >
+                  Go to dashboard
+                </a>
+              )}
             </div>
           </motion.div>
         )}
