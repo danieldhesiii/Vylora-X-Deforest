@@ -13,13 +13,6 @@ export function Hero() {
       id="top"
       className="relative flex min-h-[100svh] items-center overflow-hidden bg-paper pt-28 pb-20"
     >
-      {/* background washes */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-32 top-0 h-[38rem] w-[38rem] rounded-full bg-signal-soft/25 blur-[130px]" />
-        <div className="absolute -right-24 bottom-0 h-[34rem] w-[34rem] rounded-full bg-sage-soft/30 blur-[130px]" />
-        <div className="topo absolute inset-0 opacity-70" />
-      </div>
-
       <div className="relative mx-auto grid w-full max-w-7xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-[1.05fr_0.95fr]">
         {/* copy */}
         <div className="text-center lg:text-left">
@@ -27,12 +20,9 @@ export function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease }}
-            className="inline-flex items-center gap-2 rounded-full border border-forest/15 bg-paper-soft/80 px-4 py-1.5"
+            className="inline-flex items-center gap-2.5 rounded-full border border-forest/15 bg-paper-soft px-4 py-1.5"
           >
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-signal" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-signal" />
-            </span>
+            <span className="h-1.5 w-1.5 rounded-full bg-signal" />
             <span className="eyebrow text-[0.62rem] text-forest">{hero.eyebrow}</span>
           </motion.div>
 
@@ -43,7 +33,7 @@ export function Hero() {
             className="mt-6 font-display text-[2.6rem] font-semibold leading-[1.02] tracking-tight text-forest sm:text-6xl lg:text-[4.1rem]"
           >
             {hero.titleLead}{" "}
-            <span className="signal-text">{hero.titleAccent}</span>{" "}
+            <span className="italic text-signal">{hero.titleAccent}</span>{" "}
             {hero.titleTail}
           </motion.h1>
 
@@ -64,17 +54,17 @@ export function Hero() {
           >
             <a
               href={site.demoUrl}
-              className="group inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-signal px-7 py-4 text-base font-semibold text-white shadow-xl shadow-signal/25 transition-all hover:scale-[1.03] hover:bg-signal-bright hover:shadow-signal/40 sm:w-auto"
+              className="inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-signal px-7 py-4 text-base font-semibold text-white shadow-soft transition-colors hover:bg-signal-bright sm:w-auto"
             >
               <CalendarClock className="h-5 w-5" />
               {hero.primaryCta}
             </a>
             <a
               href="#how"
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-forest/20 bg-paper-soft px-7 py-4 text-base font-semibold text-forest transition-all hover:border-forest/40 hover:bg-paper-deep sm:w-auto"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-forest/25 bg-paper-soft px-7 py-4 text-base font-semibold text-forest transition-colors hover:bg-paper-deep sm:w-auto"
             >
               {hero.secondaryCta}
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="h-4 w-4" />
             </a>
           </motion.div>
 
@@ -169,27 +159,17 @@ function ForestCheckCard() {
         </span>
       </div>
 
-      {/* scanning globe */}
-      <div className="relative flex items-center justify-center overflow-hidden bg-gradient-to-b from-forest-deep to-forest px-6 py-8">
-        <div className="grid-dots absolute inset-0 opacity-60" />
+      {/* satellite plot map (static) */}
+      <div className="relative flex items-center justify-center overflow-hidden bg-forest px-6 py-9">
         <div className="relative h-32 w-32">
-          <div className="absolute inset-0 rounded-full border border-signal-soft/30" />
-          <div className="absolute inset-3 rounded-full border border-signal-soft/20" />
-          <div className="absolute inset-6 rounded-full border border-signal-soft/10" />
-          {/* sweep */}
-          <div
-            className="absolute inset-0 animate-sweep rounded-full"
-            style={{
-              background:
-                "conic-gradient(from 0deg, transparent 0deg, transparent 300deg, rgba(34,197,94,0.55) 360deg)",
-              maskImage: "radial-gradient(circle, black 40%, transparent 71%)",
-              WebkitMaskImage: "radial-gradient(circle, black 40%, transparent 71%)",
-            }}
-          />
-          {/* plot pings */}
-          <span className="absolute left-8 top-9 h-2 w-2 rounded-full bg-clear shadow-[0_0_8px] shadow-clear" />
-          <span className="absolute right-9 top-12 h-2 w-2 rounded-full bg-review shadow-[0_0_8px] shadow-review" />
-          <span className="absolute bottom-9 left-14 h-2 w-2 rounded-full bg-flag shadow-[0_0_8px] shadow-flag" />
+          <div className="absolute inset-0 rounded-full border border-white/15" />
+          <div className="absolute inset-4 rounded-full border border-white/12" />
+          <div className="absolute inset-8 rounded-full border border-white/10" />
+          <div className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-white/10" />
+          <div className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-white/10" />
+          <span className="absolute left-8 top-9 h-2.5 w-2.5 rounded-full bg-clear ring-2 ring-clear/25" />
+          <span className="absolute right-9 top-12 h-2.5 w-2.5 rounded-full bg-review ring-2 ring-review/25" />
+          <span className="absolute bottom-9 left-14 h-2.5 w-2.5 rounded-full bg-flag ring-2 ring-flag/25" />
         </div>
       </div>
 

@@ -24,11 +24,11 @@ export function Features() {
             return (
               <RevealItem key={f.title} className={span}>
                 <div
-                  className={`group flex h-full flex-col rounded-3xl border border-forest/10 bg-paper-soft p-7 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:border-signal/25 hover:shadow-lift ${
+                  className={`flex h-full flex-col rounded-3xl border border-forest/10 bg-paper-soft p-7 shadow-soft ${
                     feature ? "sm:p-8" : ""
                   }`}
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-forest/5 text-forest transition-colors group-hover:bg-signal/10 group-hover:text-signal">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-forest/5 text-forest">
                     <Icon name={f.icon} className="h-6 w-6" />
                   </div>
                   <h3

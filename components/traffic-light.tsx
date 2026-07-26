@@ -72,7 +72,7 @@ export function TrafficLight() {
               <p className="flex items-start gap-3 text-sm leading-relaxed text-muted">
                 <FileSearch className="mt-0.5 h-5 w-5 shrink-0 text-signal" />
                 We store every raw Whisp response verbatim. You always see the underlying
-                report — the traffic light is a summary, never a substitute.
+                report. The traffic light is a summary, never a substitute.
               </p>
             </div>
           </Reveal>

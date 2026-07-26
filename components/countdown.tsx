@@ -53,7 +53,7 @@ export function Countdown({
           className={`flex min-w-[3.4rem] flex-col items-center rounded-xl border px-2.5 py-2 ${box}`}
         >
           <span className="font-display text-2xl font-semibold tabular-nums leading-none">
-            {mounted ? String(u.v).padStart(2, "0") : "––"}
+            {mounted ? String(u.v).padStart(2, "0") : "00"}
           </span>
           <span className={`mt-1 text-[0.6rem] font-medium uppercase tracking-wider ${lbl}`}>
             {u.l}

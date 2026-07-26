@@ -11,16 +11,14 @@ export function DeadlineBand() {
     },
     {
       d: deadlines.large,
-      note: "Larger firms — and micro/small timber already under the old EUTR",
+      note: "Larger firms, plus micro and small timber already under the old EUTR",
       accent: false,
     },
   ];
 
   return (
-    <section className="relative overflow-hidden bg-forest-deep text-paper-soft">
-      <div className="grid-dots absolute inset-0 opacity-40" />
-      <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-signal/15 blur-[100px]" />
-      <div className="relative mx-auto max-w-7xl px-5 py-12 sm:px-8 sm:py-14">
+    <section className="relative bg-forest-deep text-paper-soft">
+      <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8 sm:py-14">
         <div className="mb-8 flex items-center gap-2.5">
           <CalendarClock className="h-5 w-5 text-signal-soft" />
           <p className="eyebrow text-signal-soft">The clock is running</p>

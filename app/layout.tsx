@@ -1,24 +1,26 @@
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk, Inter } from "next/font/google";
+import { Source_Serif_4, Public_Sans } from "next/font/google";
 import "./globals.css";
 
-const spaceGrotesk = Space_Grotesk({
+const sourceSerif = Source_Serif_4({
   variable: "--font-display",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
-const inter = Inter({
+const publicSans = Public_Sans({
   variable: "--font-sans",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://deforest.eu"),
   title: {
-    default: "Deforest — Get your EUDR due diligence filing-ready",
+    default: "Deforest: Get your EUDR due diligence filing-ready",
     template: "%s · Deforest",
   },
   description:
@@ -38,7 +40,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Deforest" }],
   openGraph: {
-    title: "Deforest — EUDR paperwork, prepared for you",
+    title: "Deforest: EUDR paperwork, prepared for you",
     description:
       "Collect supplier geolocation, run the UN FAO Whisp forest check, and build a filing-ready EUDR due-diligence pack. Built for small businesses, from £29/month.",
     type: "website",
@@ -47,7 +49,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Deforest — EUDR paperwork, prepared for you",
+    title: "Deforest: EUDR paperwork, prepared for you",
     description:
       "The simplest way for small businesses to prepare their EU Deforestation Regulation filing. From £29/month.",
   },
@@ -58,7 +60,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  themeColor: "#0e3b29",
+  themeColor: "#123a29",
 };
 
 export default function RootLayout({
@@ -67,7 +69,7 @@ export default function RootLayout({
   return (
     <html
       lang="en-GB"
-      className={`${spaceGrotesk.variable} ${inter.variable} h-full antialiased`}
+      className={`${sourceSerif.variable} ${publicSans.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-paper text-ink">{children}</body>
     </html>

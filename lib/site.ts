@@ -62,9 +62,9 @@ export const hero = {
   eyebrow: "For coffee, cocoa, timber, rubber & furniture businesses",
   titleLead: "Get your EUDR due diligence",
   titleAccent: "filing-ready",
-  titleTail: "— before the deadline.",
+  titleTail: "before the deadline.",
   subtitle:
-    "Deforest collects your suppliers' plot locations, runs every one through the UN FAO's satellite forest check, and assembles a filing-ready due-diligence pack — so you walk into TRACES prepared, not panicking.",
+    "Deforest collects your suppliers' plot locations, runs every one through the UN FAO's satellite forest check, and assembles a filing-ready due-diligence pack, so you walk into TRACES prepared, not panicking.",
   primaryCta: "Book a 15-minute demo",
   secondaryCta: "See how it works",
   trustPoints: [
@@ -88,7 +88,7 @@ export const stakes = {
   eyebrow: "What the regulation demands",
   title: "The EU Deforestation Regulation is real, and the paperwork is heavy.",
   intro:
-    "If you place coffee, cocoa, timber, rubber, cattle, soy, palm oil — or products made from them — on the EU market, you must prove they didn't come from land deforested after 31 December 2020. That means work no spreadsheet handles well:",
+    "If you place coffee, cocoa, timber, rubber, cattle, soy or palm oil (or products made from them) on the EU market, you must prove they didn't come from land deforested after 31 December 2020. That means work no spreadsheet handles well:",
   demands: [
     {
       icon: "MapPin",
@@ -118,7 +118,7 @@ export const stakes = {
       { stat: "Seized", label: "goods confiscated at the border" },
       { stat: "Excluded", label: "from public procurement & funding" },
     ],
-    note: "Under EUDR the legal liability sits with the operator placing goods on the market — even if a supplier's data is wrong. That's exactly why preparation and evidence matter.",
+    note: "Under EUDR the legal liability sits with the operator placing goods on the market, even if a supplier's data is wrong. That is exactly why preparation and evidence matter.",
   },
 } as const;
 
@@ -141,7 +141,7 @@ export const audience = {
         "Filing-ready TRACES due-diligence pack",
         "Complete five-year audit trail",
       ],
-      price: "£149–299",
+      price: "£149 to £299",
       priceUnit: "/mo",
       highlight: false,
     },
@@ -149,14 +149,14 @@ export const audience = {
       id: "downstream",
       tag: "Downstream buyers & traders",
       title: "You buy from an EU importer",
-      body: "Roasters, bean-to-bar makers, furniture and timber merchants who buy already-imported goods. Your job is lighter: collect and safely store your suppliers' due-diligence reference numbers — and prove you did.",
+      body: "Roasters, bean-to-bar makers, furniture and timber merchants who buy already-imported goods. Your job is lighter: collect and safely store your suppliers' due-diligence reference numbers, and prove you did.",
       points: [
         "Capture & store supplier reference numbers",
         "Searchable, exportable reference vault",
         "Five-year retention handled for you",
         "Audit-ready records on demand",
       ],
-      price: "£29–49",
+      price: "£29 to £49",
       priceUnit: "/mo",
       highlight: true,
     },
@@ -176,13 +176,13 @@ export const howItWorks = {
       n: "01",
       icon: "Upload",
       title: "Collect supplier data",
-      body: "Suppliers upload a GeoJSON or KML file, drop a pin, or type coordinates — from a cheap phone on patchy data if they have to. Deforest validates instantly and flags obvious errors on a map before anything moves on.",
+      body: "Suppliers upload a GeoJSON or KML file, drop a pin, or type coordinates, even from a cheap phone on patchy data. Deforest validates instantly and flags obvious errors on a map before anything moves on.",
     },
     {
       n: "02",
       icon: "Satellite",
       title: "Run the forest check",
-      body: "Every plot is sent to the UN FAO's free Whisp engine. You get a plot-by-plot report and a plain traffic-light result — and we never soften what Whisp returns.",
+      body: "Every plot is sent to the UN FAO's free Whisp engine. You get a plot-by-plot report and a plain traffic-light result, and we never soften what Whisp returns.",
     },
     {
       n: "03",
@@ -194,7 +194,7 @@ export const howItWorks = {
       n: "04",
       icon: "ShieldCheck",
       title: "Keep the records",
-      body: "Every action is logged, every document versioned, and the whole five-year archive is exportable in a click — ready if an auditor ever asks.",
+      body: "Every action is logged, every document versioned, and the whole five-year archive is exportable in a click, ready if an auditor ever asks.",
     },
   ],
 } as const;
@@ -204,14 +204,14 @@ export const howItWorks = {
 // -------------------------------------------------------------------
 export const features = {
   eyebrow: "The product",
-  title: "Five tools. Exactly what the filing needs — nothing you don't.",
+  title: "Five tools. Exactly what the filing needs, nothing you don't.",
   subtitle:
     "We deliberately kept version one focused on the work the regulation actually requires.",
   items: [
     {
       icon: "MapPinned",
       title: "Supplier data intake",
-      body: "GeoJSON / KML upload, pin-drop or typed coordinates, plus document upload. Instant validation, map confirmation and obvious-error flagging — designed to stay light on a slow phone.",
+      body: "GeoJSON or KML upload, pin-drop or typed coordinates, plus document upload. Instant validation, map confirmation and obvious-error flagging, all built to stay light on a slow phone.",
     },
     {
       icon: "Satellite",
@@ -221,7 +221,7 @@ export const features = {
     {
       icon: "FileText",
       title: "Statement builder",
-      body: "A filing-ready pack for manual TRACES submission — formatted, complete, and easy to check before you file it yourself.",
+      body: "A filing-ready pack for manual TRACES submission: formatted, complete, and easy to check before you file it yourself.",
     },
     {
       icon: "Vault",
@@ -242,7 +242,7 @@ export const features = {
 export const trafficLight = {
   eyebrow: "The forest check, in plain sight",
   title: "One clear result per plot. Never softened.",
-  body: "When Whisp comes back, you see exactly what it found — green, amber or red — with the underlying report one click away. That honesty is the point: it's the evidence that protects you.",
+  body: "When Whisp comes back, you see exactly what it found (green, amber or red) with the underlying report one click away. That honesty is the point: it is the evidence that protects you.",
   plots: [
     {
       id: "Plot A · 2.1 ha",
@@ -256,7 +256,7 @@ export const trafficLight = {
       origin: "Lampung, Indonesia",
       status: "review",
       label: "Needs review",
-      detail: "Possible disturbance near plot edge — check source data.",
+      detail: "Possible disturbance near plot edge. Check source data.",
     },
     {
       id: "Plot C · 4.4 ha",
@@ -273,7 +273,7 @@ export const trafficLight = {
 // -------------------------------------------------------------------
 export const trust = {
   eyebrow: "Built to be trusted",
-  title: "Where your data lives — and where the responsibility sits.",
+  title: "Where your data lives, and where the responsibility sits.",
   cards: [
     {
       icon: "Server",
@@ -283,7 +283,7 @@ export const trust = {
     {
       icon: "Globe2",
       title: "Powered by UN FAO Whisp",
-      body: "The satellite analysis comes from the free, open Whisp engine built by the UN's Food and Agriculture Organization. We build the workflow around it — we don't invent the science.",
+      body: "The satellite analysis comes from the free, open Whisp engine built by the UN's Food and Agriculture Organization. We build the workflow around it. We don't invent the science.",
     },
     {
       icon: "Lock",
@@ -293,7 +293,7 @@ export const trust = {
     {
       icon: "Scale",
       title: "You own the filing",
-      body: "Deforest provides evidence and preparation. You remain legally responsible for your due-diligence statement — we're honest about that, because the law is.",
+      body: "Deforest provides evidence and preparation. You remain legally responsible for your due-diligence statement. We are honest about that, because the law is.",
     },
   ],
 } as const;
@@ -371,19 +371,19 @@ export const pricing = {
 export const faqs = [
   {
     q: "When is my EUDR deadline?",
-    a: "Micro and small businesses must comply by 30 June 2027. Large and medium companies must comply by 30 December 2026. One catch: micro/small timber operators already covered by the old EU Timber Regulation don't get the 2027 grace period — their deadline is 30 December 2026 too. If you're not sure which applies to you, that's one of the first things we'll figure out together.",
+    a: "Micro and small businesses must comply by 30 June 2027. Large and medium companies must comply by 30 December 2026. One catch: micro and small timber operators already covered by the old EU Timber Regulation don't get the 2027 grace period, so their deadline is 30 December 2026 too. If you're not sure which applies to you, that's one of the first things we'll work out together.",
   },
   {
     q: "Does Deforest guarantee I'll be compliant?",
-    a: "No — and be wary of anyone who says they do. Deforest collects your data, runs the satellite check and assembles a filing-ready pack. You remain legally responsible for your due-diligence statement. What we give you is the evidence and preparation that make filing straightforward and defensible.",
+    a: "No, and be wary of anyone who says they do. Deforest collects your data, runs the satellite check and assembles a filing-ready pack. You remain legally responsible for your due-diligence statement. What we give you is the evidence and preparation that make filing straightforward and defensible.",
   },
   {
     q: "What is Whisp, and why does it matter?",
-    a: "Whisp is a free, open satellite-analysis engine built by the UN's Food and Agriculture Organization to check plots for deforestation. It's the credible, independent source behind your forest check. We build the workflow around Whisp — collecting the data, storing the results verbatim, and never softening what it returns.",
+    a: "Whisp is a free, open satellite-analysis engine built by the UN's Food and Agriculture Organization to check plots for deforestation. It is the credible, independent source behind your forest check. We build the workflow around Whisp: collecting the data, storing the results verbatim, and never softening what it returns.",
   },
   {
     q: "I only buy from an EU importer. Do I even need this?",
-    a: "Probably, yes — just a lighter version. Downstream buyers and traders still have to collect and keep their suppliers' due-diligence reference numbers, and retain those records for five years. Our Downstream plan is built for exactly that, from £29/month.",
+    a: "Probably yes, just a lighter version. Downstream buyers and traders still have to collect and keep their suppliers' due-diligence reference numbers, and retain those records for five years. Our Downstream plan is built for exactly that, from £29/month.",
   },
   {
     q: "Where is my data stored?",
@@ -391,7 +391,7 @@ export const faqs = [
   },
   {
     q: "How much technical work is this for my suppliers?",
-    a: "As little as possible. A supplier can upload a GeoJSON or KML file, drop a pin on a map, or type coordinates — and the intake page is built to stay light on a cheap phone with a patchy connection. Deforest validates the data and flags obvious errors before anything moves forward.",
+    a: "As little as possible. A supplier can upload a GeoJSON or KML file, drop a pin on a map, or type coordinates, and the intake page is built to stay light on a cheap phone with a patchy connection. Deforest validates the data and flags obvious errors before anything moves forward.",
   },
 ] as const;
 
@@ -401,7 +401,7 @@ export const faqs = [
 export const finalCta = {
   eyebrow: "Don't wait for the deadline to arrive",
   title: "See your first plot checked in fifteen minutes.",
-  body: "Book a short demo and we'll walk through your exact situation — operator or downstream, coffee or timber — and show you what a filing-ready pack looks like for your business.",
+  body: "Book a short demo and we'll walk through your exact situation, operator or downstream, coffee or timber, and show you what a filing-ready pack looks like for your business.",
   primaryCta: "Book a 15-minute demo",
   secondaryCta: "Join the early-access list",
 } as const;
@@ -411,7 +411,7 @@ export const finalCta = {
 // -------------------------------------------------------------------
 export const footer = {
   disclaimer:
-    "Deforest provides workflow, record-keeping and filing-preparation software. It does not provide legal advice and does not submit filings on your behalf. The customer remains legally responsible for their due-diligence statement and its accuracy. EUDR = Regulation (EU) 2023/1115. Regulatory details are subject to change — always check the European Commission's EUDR implementation page for the current position.",
+    "Deforest provides workflow, record-keeping and filing-preparation software. It does not provide legal advice and does not submit filings on your behalf. The customer remains legally responsible for their due-diligence statement and its accuracy. EUDR refers to Regulation (EU) 2023/1115. Regulatory details are subject to change, so always check the European Commission's EUDR implementation page for the current position.",
   columns: [
     {
       title: "Product",

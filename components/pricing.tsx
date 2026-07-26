@@ -26,10 +26,6 @@ export function Pricing() {
                     : "border-forest/10 bg-paper-soft shadow-soft"
                 }`}
               >
-                {plan.highlight && (
-                  <div className="grid-dots pointer-events-none absolute inset-0 opacity-25" />
-                )}
-
                 {plan.badge && (
                   <span
                     className={`relative mb-4 inline-flex w-fit items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider ${
@@ -72,7 +68,7 @@ export function Pricing() {
                         plan.highlight ? "text-paper-soft/60" : "text-faint"
                       }`}
                     >
-                      –{plan.priceTo}
+                      to {plan.priceTo}
                     </span>
                   )}
                   <span
@@ -86,9 +82,9 @@ export function Pricing() {
 
                 <a
                   href={site.demoUrl}
-                  className={`relative mt-6 inline-flex items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold transition-all ${
+                  className={`relative mt-6 inline-flex items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold transition-colors ${
                     plan.highlight
-                      ? "bg-signal text-white hover:bg-signal-bright hover:shadow-lg hover:shadow-signal/30"
+                      ? "bg-signal text-white hover:bg-signal-bright"
                       : "bg-forest text-paper-soft hover:bg-forest-deep"
                   }`}
                 >

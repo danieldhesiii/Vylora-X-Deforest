@@ -27,9 +27,6 @@ export function Audience() {
                       : "border-forest/10 bg-paper-soft shadow-soft"
                   }`}
                 >
-                  {p.highlight && (
-                    <div className="grid-dots pointer-events-none absolute inset-0 opacity-30" />
-                  )}
                   <div className="relative flex items-center justify-between">
                     <div
                       className={`flex h-12 w-12 items-center justify-center rounded-2xl ${
@@ -105,7 +102,7 @@ export function Audience() {
                       }`}
                     >
                       Get started
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                      <ArrowRight className="h-4 w-4" />
                     </a>
                   </div>
                 </div>
@@ -117,7 +114,7 @@ export function Audience() {
         <Reveal className="mx-auto mt-8 max-w-2xl text-center">
           <p className="text-sm text-muted">
             Not sure which one you are? That&apos;s the very first thing we work out with
-            you — for many small businesses the answer is the lighter, downstream lane.
+            you. For many small businesses the answer is the lighter, downstream lane.
           </p>
         </Reveal>
       </div>

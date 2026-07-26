@@ -31,7 +31,7 @@ export function Navbar() {
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-8">
         <a href="#top" className="group flex items-center gap-2.5">
-          <Logo className="h-9 w-9 transition-transform duration-500 group-hover:rotate-[10deg]" />
+          <Logo className="h-9 w-9" />
           <span className="flex flex-col leading-none">
             <span className="font-display text-xl font-semibold tracking-tight text-forest">
               {site.name}
@@ -45,15 +45,14 @@ export function Navbar() {
             <a
               key={l.href}
               href={l.href}
-              className="group relative text-sm font-medium text-forest/75 transition-colors hover:text-forest"
+              className="text-sm font-medium text-forest/70 transition-colors hover:text-forest"
             >
               {l.label}
-              <span className="absolute -bottom-1.5 left-0 h-px w-0 bg-signal transition-all duration-300 group-hover:w-full" />
             </a>
           ))}
           <a
             href={site.demoUrl}
-            className="inline-flex items-center gap-2 rounded-full bg-forest px-5 py-2.5 text-sm font-semibold text-paper-soft shadow-lg shadow-forest/20 transition-all hover:bg-forest-deep hover:shadow-forest/30"
+            className="inline-flex items-center gap-2 rounded-full bg-forest px-5 py-2.5 text-sm font-semibold text-paper-soft transition-colors hover:bg-forest-deep"
           >
             <CalendarClock className="h-4 w-4" />
             Book a demo

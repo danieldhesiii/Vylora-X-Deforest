@@ -4,9 +4,8 @@ import { howItWorks } from "@/lib/site";
 
 export function HowItWorks() {
   return (
-    <section id="how" className="relative overflow-hidden bg-paper py-24 sm:py-28">
-      <div className="pointer-events-none absolute left-1/2 top-40 -z-0 h-[30rem] w-[30rem] -translate-x-1/2 rounded-full bg-signal-soft/10 blur-[120px]" />
-      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
+    <section id="how" className="relative bg-paper py-24 sm:py-28">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal className="mx-auto max-w-3xl text-center">
           <p className="eyebrow text-moss">{howItWorks.eyebrow}</p>
           <h2 className="mt-4 font-display text-3xl font-semibold leading-tight tracking-tight text-forest sm:text-4xl lg:text-[2.75rem]">
@@ -23,12 +22,12 @@ export function HowItWorks() {
 
           {howItWorks.steps.map((s) => (
             <RevealItem key={s.n}>
-              <div className="group relative h-full rounded-3xl border border-forest/10 bg-paper-soft p-7 shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:shadow-lift">
+              <div className="relative h-full rounded-3xl border border-forest/10 bg-paper-soft p-7 shadow-soft">
                 <div className="flex items-center justify-between">
-                  <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-forest text-paper-soft shadow-lg shadow-forest/20 transition-colors group-hover:bg-signal">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-forest text-paper-soft">
                     <Icon name={s.icon} className="h-6 w-6" />
                   </div>
-                  <span className="font-display text-4xl font-bold text-forest/10 transition-colors group-hover:text-signal/25">
+                  <span className="font-display text-4xl font-semibold text-forest/15">
                     {s.n}
                   </span>
                 </div>

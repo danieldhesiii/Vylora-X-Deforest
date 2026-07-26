@@ -5,9 +5,8 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative overflow-hidden bg-forest-deep text-paper-soft">
-      <div className="grid-dots absolute inset-0 opacity-20" />
-      <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-8">
+    <footer className="relative bg-forest-deep text-paper-soft">
+      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_2fr]">
           {/* brand */}
           <div>

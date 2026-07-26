@@ -21,8 +21,8 @@ export function Stakes() {
         <RevealGroup className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {stakes.demands.map((d) => (
             <RevealItem key={d.title}>
-              <div className="group h-full rounded-3xl border border-forest/10 bg-paper-soft p-6 shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-forest/5 text-forest transition-colors group-hover:bg-signal/10 group-hover:text-signal">
+              <div className="h-full rounded-3xl border border-forest/10 bg-paper-soft p-6 shadow-soft">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-forest/5 text-forest">
                   <Icon name={d.icon} className="h-6 w-6" />
                 </div>
                 <h3 className="mt-5 font-display text-lg font-semibold text-forest">{d.title}</h3>
