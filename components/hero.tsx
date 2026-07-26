@@ -2,8 +2,7 @@
 
 import { motion } from "motion/react";
 import { ArrowRight, Check, CalendarClock, Satellite } from "lucide-react";
-import { Countdown } from "@/components/countdown";
-import { hero, site, deadlines } from "@/lib/site";
+import { hero, site } from "@/lib/site";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -53,18 +52,18 @@ export function Hero() {
             className="mt-9 flex flex-col items-center gap-3 sm:flex-row lg:justify-start"
           >
             <a
-              href={site.demoUrl}
+              href={site.signupUrl}
               className="inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-signal px-7 py-4 text-base font-semibold text-white shadow-soft transition-colors hover:bg-signal-bright sm:w-auto"
             >
-              <CalendarClock className="h-5 w-5" />
               {hero.primaryCta}
+              <ArrowRight className="h-4 w-4" />
             </a>
             <a
-              href="#how"
+              href={site.demoUrl}
               className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-forest/25 bg-paper-soft px-7 py-4 text-base font-semibold text-forest transition-colors hover:bg-paper-deep sm:w-auto"
             >
+              <CalendarClock className="h-5 w-5" />
               {hero.secondaryCta}
-              <ArrowRight className="h-4 w-4" />
             </a>
           </motion.div>
 
@@ -105,22 +104,6 @@ export function Hero() {
           className="relative mx-auto w-full max-w-md lg:max-w-none"
         >
           <ForestCheckCard />
-
-          {/* floating deadline badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.85, ease }}
-            className="absolute -bottom-7 -left-3 rounded-2xl border border-forest/10 bg-paper-soft/95 p-4 shadow-lift backdrop-blur sm:-left-8"
-          >
-            <p className="flex items-center gap-1.5 text-[0.65rem] font-semibold uppercase tracking-wider text-flag">
-              <CalendarClock className="h-3.5 w-3.5" />
-              Small-business deadline · {deadlines.smb.dateDisplay}
-            </p>
-            <div className="mt-2.5">
-              <Countdown iso={deadlines.smb.date} />
-            </div>
-          </motion.div>
         </motion.div>
       </div>
     </section>

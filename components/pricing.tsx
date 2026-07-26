@@ -60,17 +60,8 @@ export function Pricing() {
                       plan.highlight ? "text-paper-soft" : "text-forest"
                     }`}
                   >
-                    {plan.priceFrom}
+                    {plan.price}
                   </span>
-                  {plan.priceTo && (
-                    <span
-                      className={`mb-1 text-lg font-medium ${
-                        plan.highlight ? "text-paper-soft/60" : "text-faint"
-                      }`}
-                    >
-                      to {plan.priceTo}
-                    </span>
-                  )}
                   <span
                     className={`mb-1.5 text-sm ${
                       plan.highlight ? "text-paper-soft/60" : "text-muted"
@@ -79,9 +70,16 @@ export function Pricing() {
                     {plan.unit}
                   </span>
                 </div>
+                <p
+                  className={`relative mt-1.5 text-xs ${
+                    plan.highlight ? "text-paper-soft/55" : "text-faint"
+                  }`}
+                >
+                  {plan.annual}
+                </p>
 
                 <a
-                  href={site.demoUrl}
+                  href={plan.ctaKind === "signup" ? site.signupUrl : site.demoUrl}
                   className={`relative mt-6 inline-flex items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold transition-colors ${
                     plan.highlight
                       ? "bg-signal text-white hover:bg-signal-bright"

@@ -94,14 +94,14 @@ export function Audience() {
                       </span>
                     </div>
                     <a
-                      href={site.demoUrl}
-                      className={`group inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all ${
+                      href={p.highlight ? site.signupUrl : site.demoUrl}
+                      className={`group inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors ${
                         p.highlight
                           ? "bg-signal text-white hover:bg-signal-bright"
                           : "bg-forest text-paper-soft hover:bg-forest-deep"
                       }`}
                     >
-                      Get started
+                      {p.highlight ? "Get started" : "Book a demo"}
                       <ArrowRight className="h-4 w-4" />
                     </a>
                   </div>

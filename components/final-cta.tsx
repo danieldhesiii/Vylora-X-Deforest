@@ -20,18 +20,18 @@ export function FinalCta() {
 
             <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <a
-                href={site.demoUrl}
+                href={site.signupUrl}
                 className="inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-signal px-7 py-4 text-base font-semibold text-white shadow-soft transition-colors hover:bg-signal-bright sm:w-auto"
               >
-                <CalendarClock className="h-5 w-5" />
                 {finalCta.primaryCta}
+                <ArrowRight className="h-4 w-4" />
               </a>
               <a
-                href={site.waitlistUrl}
+                href={site.demoUrl}
                 className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-forest/25 bg-paper-soft px-7 py-4 text-base font-semibold text-forest transition-colors hover:bg-paper-deep sm:w-auto"
               >
+                <CalendarClock className="h-5 w-5" />
                 {finalCta.secondaryCta}
-                <ArrowRight className="h-4 w-4" />
               </a>
             </div>
 

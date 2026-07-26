@@ -52,10 +52,16 @@ export function Navbar() {
           ))}
           <a
             href={site.demoUrl}
-            className="inline-flex items-center gap-2 rounded-full bg-forest px-5 py-2.5 text-sm font-semibold text-paper-soft transition-colors hover:bg-forest-deep"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-forest/80 transition-colors hover:text-forest"
           >
             <CalendarClock className="h-4 w-4" />
             Book a demo
+          </a>
+          <a
+            href={site.signupUrl}
+            className="inline-flex items-center gap-2 rounded-full bg-signal px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-signal-bright"
+          >
+            Sign up
           </a>
         </div>
 
@@ -89,9 +95,16 @@ export function Navbar() {
                 </a>
               ))}
               <a
+                href={site.signupUrl}
+                onClick={() => setOpen(false)}
+                className="mt-2 inline-flex items-center justify-center gap-2 rounded-2xl bg-signal px-5 py-4 text-base font-semibold text-white"
+              >
+                Sign up
+              </a>
+              <a
                 href={site.demoUrl}
                 onClick={() => setOpen(false)}
-                className="mt-2 inline-flex items-center justify-center gap-2 rounded-2xl bg-forest px-5 py-4 text-base font-semibold text-paper-soft"
+                className="mt-2 inline-flex items-center justify-center gap-2 rounded-2xl border border-forest/25 px-5 py-4 text-base font-semibold text-forest"
               >
                 <CalendarClock className="h-5 w-5" />
                 Book a demo
