@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "description": "Deforest — EUDR compliance preparation SaaS. Marketing landing page.",
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
