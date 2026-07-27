@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Menu, X, CalendarClock } from "lucide-react";
+import { UserButton, useUser } from "@clerk/nextjs";
 import { Logo } from "@/components/decor";
 import { site, navLinks } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -10,6 +11,7 @@ import { cn } from "@/lib/utils";
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { isSignedIn, isLoaded } = useUser();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -40,7 +42,7 @@ export function Navbar() {
           </span>
         </a>
 
-        <div className="hidden items-center gap-8 lg:flex">
+        <div className="hidden items-center gap-6 lg:flex">
           {navLinks.map((l) => (
             <a
               key={l.href}
@@ -52,17 +54,38 @@ export function Navbar() {
           ))}
           <a
             href={site.demoUrl}
-            className="inline-flex items-center gap-2 text-sm font-semibold text-forest/80 transition-colors hover:text-forest"
+            className="inline-flex items-center gap-2 rounded-full border border-forest/20 px-4 py-2 text-sm font-semibold text-forest transition-colors hover:bg-forest/5"
           >
             <CalendarClock className="h-4 w-4" />
             Book a demo
           </a>
-          <a
-            href={site.signupUrl}
-            className="inline-flex items-center gap-2 rounded-full bg-signal px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-signal-bright"
-          >
-            Sign up
-          </a>
+          {isLoaded && !isSignedIn && (
+            <>
+              <a
+                href="/sign-in"
+                className="text-sm font-medium text-forest/70 transition-colors hover:text-forest"
+              >
+                Sign in
+              </a>
+              <a
+                href="/sign-up"
+                className="inline-flex items-center gap-2 rounded-full bg-signal px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-signal-bright"
+              >
+                Get started
+              </a>
+            </>
+          )}
+          {isLoaded && isSignedIn && (
+            <>
+              <a
+                href="/dashboard"
+                className="inline-flex items-center gap-2 rounded-full bg-signal px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-signal-bright"
+              >
+                Dashboard
+              </a>
+              <UserButton />
+            </>
+          )}
         </div>
 
         <button
@@ -95,20 +118,40 @@ export function Navbar() {
                 </a>
               ))}
               <a
-                href={site.signupUrl}
-                onClick={() => setOpen(false)}
-                className="mt-2 inline-flex items-center justify-center gap-2 rounded-2xl bg-signal px-5 py-4 text-base font-semibold text-white"
-              >
-                Sign up
-              </a>
-              <a
                 href={site.demoUrl}
                 onClick={() => setOpen(false)}
-                className="mt-2 inline-flex items-center justify-center gap-2 rounded-2xl border border-forest/25 px-5 py-4 text-base font-semibold text-forest"
+                className="mt-2 inline-flex items-center justify-center gap-2 rounded-2xl border border-forest/20 px-5 py-4 text-base font-semibold text-forest"
               >
                 <CalendarClock className="h-5 w-5" />
                 Book a demo
               </a>
+              {isLoaded && !isSignedIn && (
+                <>
+                  <a
+                    href="/sign-in"
+                    onClick={() => setOpen(false)}
+                    className="mt-2 rounded-2xl px-4 py-3.5 text-center text-lg font-medium text-forest transition-colors hover:bg-forest/5"
+                  >
+                    Sign in
+                  </a>
+                  <a
+                    href="/sign-up"
+                    onClick={() => setOpen(false)}
+                    className="mt-2 inline-flex items-center justify-center gap-2 rounded-2xl bg-signal px-5 py-4 text-base font-semibold text-white"
+                  >
+                    Get started
+                  </a>
+                </>
+              )}
+              {isLoaded && isSignedIn && (
+                <a
+                  href="/dashboard"
+                  onClick={() => setOpen(false)}
+                  className="mt-2 inline-flex items-center justify-center gap-2 rounded-2xl bg-signal px-5 py-4 text-base font-semibold text-white"
+                >
+                  Go to dashboard
+                </a>
+              )}
             </div>
           </motion.div>
         )}

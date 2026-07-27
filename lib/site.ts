@@ -16,10 +16,10 @@ export const site = {
   domain: "deforest.eu",
 
   // --- Contact / CTA destinations --------------------------------
+  // "Get started" / sign up routes to the Clerk sign-up flow.
   // "Book a demo" scrolls to the on-page form (#book-demo) which posts
-  // to Formspree. Sign up / waitlist are still placeholder mailtos.
-  // TODO: swap the signup app link + inbox before launch.
-  signupUrl: "mailto:hello@deforest.eu?subject=Deforest%20sign%20up",
+  // to Formspree. Waitlist is still a placeholder mailto.
+  signupUrl: "/sign-up",
   demoUrl: "#book-demo",
   waitlistUrl: "mailto:hello@deforest.eu?subject=Deforest%20early%20access",
   email: "hello@deforest.eu",

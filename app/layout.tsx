@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Source_Serif_4, Public_Sans } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 
 const sourceSerif = Source_Serif_4({
@@ -71,7 +72,9 @@ export default function RootLayout({
       lang="en-GB"
       className={`${sourceSerif.variable} ${publicSans.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-paper text-ink">{children}</body>
+      <body className="min-h-full bg-paper text-ink">
+        <ClerkProvider afterSignOutUrl="/">{children}</ClerkProvider>
+      </body>
     </html>
   );
 }
