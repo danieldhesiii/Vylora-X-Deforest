@@ -147,8 +147,6 @@ export const audience = {
         "Filing-ready TRACES pack",
         "Five-year audit trail",
       ],
-      price: "From £149",
-      priceUnit: "/mo",
       highlight: false,
     },
     {
@@ -162,8 +160,6 @@ export const audience = {
         "Five-year retention handled",
         "Audit-ready records on demand",
       ],
-      price: "£29",
-      priceUnit: "/mo",
       highlight: true,
     },
   ],

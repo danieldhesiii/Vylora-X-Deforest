@@ -77,22 +77,18 @@ export function Audience() {
                   </ul>
 
                   <div
-                    className={`relative mt-8 flex items-end justify-between border-t pt-6 ${
+                    className={`relative mt-8 flex items-center justify-between border-t pt-6 ${
                       p.highlight ? "border-white/15" : "border-forest/10"
                     }`}
                   >
-                    <div>
-                      <span
-                        className={`font-display text-3xl font-bold ${
-                          p.highlight ? "text-paper-soft" : "text-forest"
-                        }`}
-                      >
-                        {p.price}
-                      </span>
-                      <span className={p.highlight ? "text-paper-soft/60" : "text-muted"}>
-                        {p.priceUnit}
-                      </span>
-                    </div>
+                    <a
+                      href="#pricing"
+                      className={`text-sm font-semibold underline-offset-4 hover:underline ${
+                        p.highlight ? "text-signal-soft" : "text-moss"
+                      }`}
+                    >
+                      See pricing
+                    </a>
                     <a
                       href={p.highlight ? site.signupUrl : site.demoUrl}
                       className={`group inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors ${
