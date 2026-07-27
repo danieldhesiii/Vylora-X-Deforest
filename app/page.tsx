@@ -27,9 +27,9 @@ const jsonLd = {
       offers: {
         "@type": "AggregateOffer",
         priceCurrency: "GBP",
-        lowPrice: pricing.plans[0].price.replace("£", ""),
-        highPrice: "149",
-        offerCount: pricing.plans.length,
+        lowPrice: pricing.downstream.price.replace("£", ""),
+        highPrice: "299",
+        offerCount: 5,
       },
     },
     {

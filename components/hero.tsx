@@ -129,8 +129,25 @@ function ForestCheckCard() {
     flag: "text-flag bg-flag/10 ring-flag/20",
   };
 
+  // Plot boundaries drawn on the satellite map (viewBox 320 x 176).
+  const plots = [
+    { d: "M40 34 L96 27 L110 61 L72 82 L37 63 Z", cx: 69, cy: 52, tone: "clear", label: "A" },
+    { d: "M206 29 L263 33 L271 70 L227 85 L201 57 Z", cx: 234, cy: 55, tone: "review", label: "B" },
+    { d: "M118 98 L173 94 L189 136 L137 149 L105 124 Z", cx: 146, cy: 121, tone: "flag", label: "C" },
+  ] as const;
+  const poly: Record<string, string> = {
+    clear: "fill-clear/20 stroke-clear",
+    review: "fill-review/20 stroke-review",
+    flag: "fill-flag/25 stroke-flag",
+  };
+  const pin: Record<string, string> = {
+    clear: "fill-clear",
+    review: "fill-review",
+    flag: "fill-flag",
+  };
+
   return (
-    <div className="relative rounded-[2rem] border border-forest/10 bg-paper-soft shadow-lift ring-hairline">
+    <div className="relative overflow-hidden rounded-[2rem] border border-forest/10 bg-paper-soft shadow-lift ring-hairline">
       {/* window header */}
       <div className="flex items-center justify-between border-b border-forest/10 px-5 py-3.5">
         <div className="flex items-center gap-2 text-forest">
@@ -142,18 +159,50 @@ function ForestCheckCard() {
         </span>
       </div>
 
-      {/* satellite plot map (static) */}
-      <div className="relative flex items-center justify-center overflow-hidden bg-forest px-6 py-9">
-        <div className="relative h-32 w-32">
-          <div className="absolute inset-0 rounded-full border border-white/15" />
-          <div className="absolute inset-4 rounded-full border border-white/12" />
-          <div className="absolute inset-8 rounded-full border border-white/10" />
-          <div className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-white/10" />
-          <div className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-white/10" />
-          <span className="absolute left-8 top-9 h-2.5 w-2.5 rounded-full bg-clear ring-2 ring-clear/25" />
-          <span className="absolute right-9 top-12 h-2.5 w-2.5 rounded-full bg-review ring-2 ring-review/25" />
-          <span className="absolute bottom-9 left-14 h-2.5 w-2.5 rounded-full bg-flag ring-2 ring-flag/25" />
-        </div>
+      {/* satellite plot map */}
+      <div className="relative overflow-hidden bg-forest-deep">
+        <svg
+          viewBox="0 0 320 176"
+          className="block h-auto w-full"
+          role="img"
+          aria-label="Supplier plots checked against satellite forest data"
+        >
+          {/* faint map grid */}
+          <g className="stroke-white/[0.06]" strokeWidth="1">
+            {[32, 64, 96, 128, 160, 192, 224, 256, 288].map((x) => (
+              <line key={`v${x}`} x1={x} y1="0" x2={x} y2="176" />
+            ))}
+            {[36, 72, 108, 144].map((y) => (
+              <line key={`h${y}`} x1="0" y1={y} x2="320" y2={y} />
+            ))}
+          </g>
+          {/* river accent */}
+          <path
+            d="M-5 58 C60 78 90 38 150 68 S250 120 330 92"
+            className="fill-none stroke-white/10"
+            strokeWidth="4"
+            strokeLinecap="round"
+          />
+          {/* plot boundaries + pins */}
+          {plots.map((p) => (
+            <g key={p.label}>
+              <path d={p.d} className={poly[p.tone]} strokeWidth="2" strokeLinejoin="round" />
+              <circle cx={p.cx} cy={p.cy} r="6.5" className="fill-white/90" />
+              <circle cx={p.cx} cy={p.cy} r="3.5" className={pin[p.tone]} />
+              <text
+                x={p.cx}
+                y={p.cy - 11}
+                textAnchor="middle"
+                className="fill-white/90 text-[9px] font-bold"
+              >
+                {p.label}
+              </text>
+            </g>
+          ))}
+        </svg>
+        <span className="absolute left-3 top-3 rounded-md bg-black/25 px-2 py-0.5 text-[0.55rem] font-semibold uppercase tracking-[0.18em] text-white/70">
+          Satellite view
+        </span>
       </div>
 
       {/* plot rows */}
@@ -178,6 +227,12 @@ function ForestCheckCard() {
             </span>
           </motion.div>
         ))}
+      </div>
+
+      {/* footer summary */}
+      <div className="flex items-center justify-between border-t border-forest/10 px-4 py-3 text-[0.68rem] font-medium text-faint">
+        <span>3 plots analysed</span>
+        <span>Deforestation cut-off · 31 Dec 2020</span>
       </div>
     </div>
   );
