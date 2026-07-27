@@ -79,7 +79,10 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 6rem;
+  /* Small anchor offset: just clears the fixed navbar and lets the scroll
+     eat into each section's decorative top padding, so a nav-link click
+     lands the section heading right under the navbar (not far below it). */
+  scroll-padding-top: 1rem;
   -webkit-text-size-adjust: 100%;
   overflow-x: hidden;
 }
