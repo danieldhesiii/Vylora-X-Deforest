@@ -42,9 +42,21 @@ export default async function AdminPage() {
                   className="flex items-center justify-between gap-4 rounded-3xl border border-forest/10 bg-paper-soft p-5 shadow-soft transition-colors hover:border-signal/30"
                 >
                   <div className="min-w-0">
-                    <p className="truncate font-display text-base font-semibold text-forest">
-                      {r.title}
-                    </p>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="truncate font-display text-base font-semibold text-forest">
+                        {r.title}
+                      </p>
+                      {r.role && (
+                        <span className="rounded-full bg-moss/10 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-moss">
+                          {r.role}
+                        </span>
+                      )}
+                      {r.commodity && (
+                        <span className="rounded-full bg-forest/5 px-2 py-0.5 text-[11px] font-medium text-forest/70">
+                          {r.commodity}
+                        </span>
+                      )}
+                    </div>
                     <p className="mt-0.5 truncate text-xs text-faint">
                       {r.owner_email ?? r.owner_id}
                       {r.org_name ? ` · ${r.org_name}` : ""} · {" "}

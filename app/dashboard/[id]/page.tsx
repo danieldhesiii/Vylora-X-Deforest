@@ -3,9 +3,11 @@ import { notFound } from "next/navigation";
 import { currentUser } from "@clerk/nextjs/server";
 import {
   ArrowLeft,
+  Building2,
   Download,
   FileText,
   Inbox,
+  MapPin,
   PackageCheck,
   ShieldCheck,
 } from "lucide-react";
@@ -13,7 +15,13 @@ import { DashboardHeader } from "@/components/dashboard/header";
 import { StatusBadge } from "@/components/dashboard/status-badge";
 import { UploadForm } from "@/components/dashboard/upload-form";
 import { getRequest, listDocuments } from "@/lib/filings";
-import { formatBytes, STATUS_LABEL, type FilingStatus } from "@/lib/filing-types";
+import {
+  formatBytes,
+  ROLE_LABEL,
+  STATUS_LABEL,
+  type FilingRequest,
+  type FilingStatus,
+} from "@/lib/filing-types";
 import { isAdminEmail } from "@/lib/admin";
 import {
   uploadClientDocumentAction,
@@ -70,6 +78,8 @@ export default async function FilingDetailPage({
             {request.notes}
           </p>
         )}
+
+        <ConsignmentDetails request={request} />
 
         <div className="mt-8 grid gap-6 lg:grid-cols-2 lg:items-start">
           {/* Client documents */}
@@ -166,6 +176,146 @@ export default async function FilingDetailPage({
         {admin && <AdminPanel requestId={request.id} status={request.status} />}
       </div>
     </main>
+  );
+}
+
+function DetailItem({ label, value }: { label: string; value?: string | null }) {
+  if (!value) return null;
+  return (
+    <div>
+      <dt className="text-xs font-medium uppercase tracking-wide text-faint">
+        {label}
+      </dt>
+      <dd className="mt-0.5 text-sm text-forest/85">{value}</dd>
+    </div>
+  );
+}
+
+function ConsignmentDetails({ request }: { request: FilingRequest }) {
+  const hasBusiness =
+    request.role ||
+    request.org_name ||
+    request.eori_number ||
+    request.business_address ||
+    request.contact_name ||
+    request.contact_email;
+  const hasGoods =
+    request.commodity ||
+    request.product_description ||
+    request.hs_code ||
+    request.quantity ||
+    request.country_of_production ||
+    request.production_region;
+
+  if (!hasBusiness && !hasGoods) return null;
+
+  return (
+    <div className="mt-6 space-y-4">
+      {hasBusiness && (
+        <section className="rounded-4xl border border-forest/10 bg-paper-soft p-6 shadow-soft">
+          <div className="flex items-center gap-2 text-forest">
+            <Building2 className="h-5 w-5 text-moss" />
+            <h2 className="font-display text-lg font-semibold">
+              Business &amp; consignment
+            </h2>
+          </div>
+          <dl className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <DetailItem
+              label="Role"
+              value={request.role ? ROLE_LABEL[request.role] : null}
+            />
+            <DetailItem label="Legal business name" value={request.org_name} />
+            <DetailItem label="EORI number" value={request.eori_number} />
+            <DetailItem label="Business address" value={request.business_address} />
+            <DetailItem label="Contact name" value={request.contact_name} />
+            <DetailItem label="Contact email" value={request.contact_email} />
+            <DetailItem label="Commodity" value={request.commodity} />
+            <DetailItem
+              label="Product description"
+              value={request.product_description}
+            />
+            <DetailItem label="HS / customs code" value={request.hs_code} />
+            <DetailItem label="Quantity" value={request.quantity} />
+            <DetailItem
+              label="Country of production"
+              value={request.country_of_production}
+            />
+            <DetailItem label="Region" value={request.production_region} />
+          </dl>
+        </section>
+      )}
+
+      {request.suppliers.length > 0 && (
+        <section className="rounded-4xl border border-forest/10 bg-paper-soft p-6 shadow-soft">
+          <div className="flex items-center gap-2 text-forest">
+            <MapPin className="h-5 w-5 text-moss" />
+            <h2 className="font-display text-lg font-semibold">
+              Suppliers &amp; plots
+            </h2>
+          </div>
+          <div className="mt-4 space-y-3">
+            {request.suppliers.map((s, i) => (
+              <div
+                key={i}
+                className="rounded-3xl border border-forest/10 bg-paper p-4"
+              >
+                <p className="font-display text-sm font-semibold text-forest">
+                  {s.supplier_name || `Supplier #${i + 1}`}
+                </p>
+                <dl className="mt-2 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  <DetailItem label="Contact" value={s.contact} />
+                  <DetailItem label="Country" value={s.country} />
+                  <DetailItem label="Region" value={s.region} />
+                  <DetailItem label="Hectares" value={s.hectares} />
+                  <DetailItem label="Production period" value={s.production_period} />
+                </dl>
+                {s.plot_coordinates && (
+                  <div className="mt-2">
+                    <dt className="text-xs font-medium uppercase tracking-wide text-faint">
+                      Plot coordinates
+                    </dt>
+                    <pre className="mt-1 whitespace-pre-wrap break-words rounded-xl bg-paper-deep/40 p-3 text-xs text-forest/80">
+                      {s.plot_coordinates}
+                    </pre>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {request.dds_references.length > 0 && (
+        <section className="rounded-4xl border border-forest/10 bg-paper-soft p-6 shadow-soft">
+          <div className="flex items-center gap-2 text-forest">
+            <FileText className="h-5 w-5 text-moss" />
+            <h2 className="font-display text-lg font-semibold">
+              Supplier reference numbers
+            </h2>
+          </div>
+          <div className="mt-4 space-y-3">
+            {request.dds_references.map((d, i) => (
+              <div
+                key={i}
+                className="rounded-3xl border border-forest/10 bg-paper p-4"
+              >
+                <dl className="grid gap-3 sm:grid-cols-3">
+                  <DetailItem
+                    label="Supplier"
+                    value={d.supplier_name || `Supplier #${i + 1}`}
+                  />
+                  <DetailItem label="DDS reference" value={d.dds_reference} />
+                  <DetailItem
+                    label="Verification number"
+                    value={d.verification_number}
+                  />
+                </dl>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
   );
 }
 

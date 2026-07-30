@@ -10,6 +10,12 @@ import {
   setStatus,
   type FilingStatus,
 } from "@/lib/filings";
+import type {
+  FilingRole,
+  SupplierEntry,
+  DdsReference,
+} from "@/lib/filing-types";
+import { emptySupplier, emptyDdsReference } from "@/lib/filing-types";
 import { isAdminEmail } from "@/lib/admin";
 import { sendEmail, adminRecipients, appUrl } from "@/lib/notify";
 
@@ -29,19 +35,79 @@ function filesFrom(formData: FormData): File[] {
     .filter((f): f is File => f instanceof File && f.size > 0);
 }
 
+function str(formData: FormData, key: string): string | null {
+  const v = String(formData.get(key) ?? "").trim();
+  return v || null;
+}
+
+// Repeatable rows arrive as a JSON string from a hidden input, kept in sync by
+// the client form. Parse defensively and drop entirely-empty rows.
+function parseRows<T extends Record<string, string>>(
+  raw: FormDataEntryValue | null,
+  empty: () => T
+): T[] {
+  if (typeof raw !== "string" || !raw.trim()) return [];
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return [];
+  }
+  if (!Array.isArray(parsed)) return [];
+  const keys = Object.keys(empty()) as (keyof T)[];
+  return parsed
+    .map((row) => {
+      const clean = empty();
+      if (row && typeof row === "object") {
+        for (const k of keys) {
+          const val = (row as Record<string, unknown>)[k as string];
+          clean[k] = (typeof val === "string" ? val.trim() : "") as T[keyof T];
+        }
+      }
+      return clean;
+    })
+    .filter((row) => keys.some((k) => row[k] !== ""));
+}
+
 export async function createFilingRequestAction(formData: FormData) {
   const user = await requireUser();
   const title = String(formData.get("title") ?? "").trim();
-  const orgName = String(formData.get("org_name") ?? "").trim() || null;
-  const notes = String(formData.get("notes") ?? "").trim() || null;
+  const notes = str(formData, "notes");
   if (!title) throw new Error("A title is required");
+
+  const role = String(formData.get("role") ?? "") as FilingRole;
+  if (role !== "operator" && role !== "downstream") {
+    throw new Error("Please choose whether you're an operator or downstream buyer");
+  }
+
+  const suppliers: SupplierEntry[] =
+    role === "operator"
+      ? parseRows(formData.get("suppliers"), emptySupplier)
+      : [];
+  const ddsReferences: DdsReference[] =
+    role === "downstream"
+      ? parseRows(formData.get("dds_references"), emptyDdsReference)
+      : [];
 
   const req = await createRequest({
     ownerId: user.id,
     ownerEmail: user.email,
-    orgName,
+    orgName: str(formData, "org_name"),
     title,
     notes,
+    role,
+    businessAddress: str(formData, "business_address"),
+    eoriNumber: str(formData, "eori_number"),
+    contactName: str(formData, "contact_name"),
+    contactEmail: str(formData, "contact_email"),
+    commodity: str(formData, "commodity"),
+    productDescription: str(formData, "product_description"),
+    hsCode: str(formData, "hs_code"),
+    quantity: str(formData, "quantity"),
+    countryOfProduction: str(formData, "country_of_production"),
+    productionRegion: str(formData, "production_region"),
+    suppliers,
+    ddsReferences,
   });
   const recipients = adminRecipients();
   if (recipients.length) {
