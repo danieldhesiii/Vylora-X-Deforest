@@ -117,6 +117,59 @@ export async function createRequest(input: {
   return data as FilingRequest;
 }
 
+export async function updateRequestDetails(
+  id: string,
+  actor: string,
+  input: {
+    orgName?: string | null;
+    title: string;
+    notes?: string | null;
+    role: FilingRole;
+    businessAddress?: string | null;
+    eoriNumber?: string | null;
+    contactName?: string | null;
+    contactEmail?: string | null;
+    commodity?: string | null;
+    productDescription?: string | null;
+    hsCode?: string | null;
+    quantity?: string | null;
+    countryOfProduction?: string | null;
+    productionRegion?: string | null;
+    suppliers?: SupplierEntry[];
+    ddsReferences?: DdsReference[];
+  }
+): Promise<void> {
+  const { error } = await supabaseAdmin()
+    .from("filing_requests")
+    .update({
+      org_name: input.orgName ?? null,
+      title: input.title,
+      notes: input.notes ?? null,
+      role: input.role,
+      business_address: input.businessAddress ?? null,
+      eori_number: input.eoriNumber ?? null,
+      contact_name: input.contactName ?? null,
+      contact_email: input.contactEmail ?? null,
+      commodity: input.commodity ?? null,
+      product_description: input.productDescription ?? null,
+      hs_code: input.hsCode ?? null,
+      quantity: input.quantity ?? null,
+      country_of_production: input.countryOfProduction ?? null,
+      production_region: input.productionRegion ?? null,
+      suppliers: input.role === "operator" ? input.suppliers ?? [] : [],
+      dds_references:
+        input.role === "downstream" ? input.ddsReferences ?? [] : [],
+    })
+    .eq("id", id);
+  if (error) throw error;
+  await logAudit({
+    filingRequestId: id,
+    actor,
+    action: "edited_details",
+    detail: { title: input.title },
+  });
+}
+
 export async function setStatus(id: string, status: FilingStatus, actor: string) {
   const { error } = await supabaseAdmin()
     .from("filing_requests")

@@ -1,11 +1,12 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
-import { ArrowRight, Loader2, Plus, Trash2 } from "lucide-react";
+import { ArrowRight, Check, Loader2, Plus, Trash2 } from "lucide-react";
 import {
   COMMODITIES,
   emptySupplier,
   emptyDdsReference,
+  type FilingRequest,
   type FilingRole,
   type SupplierEntry,
   type DdsReference,
@@ -35,15 +36,25 @@ function Field({
 
 export function NewFilingForm({
   action,
+  mode = "create",
+  initial,
+  requestId,
 }: {
   action: (fd: FormData) => Promise<void>;
+  mode?: "create" | "edit";
+  initial?: FilingRequest | null;
+  requestId?: string;
 }) {
   const [pending, start] = useTransition();
   const formRef = useRef<HTMLFormElement>(null);
 
-  const [role, setRole] = useState<FilingRole | "">("");
-  const [suppliers, setSuppliers] = useState<SupplierEntry[]>([emptySupplier()]);
-  const [ddsRefs, setDdsRefs] = useState<DdsReference[]>([emptyDdsReference()]);
+  const [role, setRole] = useState<FilingRole | "">(initial?.role ?? "");
+  const [suppliers, setSuppliers] = useState<SupplierEntry[]>(
+    initial?.suppliers?.length ? initial.suppliers : [emptySupplier()]
+  );
+  const [ddsRefs, setDdsRefs] = useState<DdsReference[]>(
+    initial?.dds_references?.length ? initial.dds_references : [emptyDdsReference()]
+  );
 
   function setSupplier(i: number, key: keyof SupplierEntry, val: string) {
     setSuppliers((rows) =>
@@ -70,6 +81,9 @@ export function NewFilingForm({
         value={JSON.stringify(ddsRefs)}
       />
       <input type="hidden" name="role" value={role} />
+      {mode === "edit" && requestId && (
+        <input type="hidden" name="request_id" value={requestId} />
+      )}
 
       {/* 1 — Role */}
       <section>
@@ -108,6 +122,7 @@ export function NewFilingForm({
                 required
                 className={input}
                 placeholder="e.g. Q3 Colombia coffee shipment"
+                defaultValue={initial?.title ?? undefined}
               />
             </Field>
             <div className="grid gap-4 sm:grid-cols-2">
@@ -117,6 +132,7 @@ export function NewFilingForm({
                   required
                   className={input}
                   placeholder="Acme Coffee Imports Ltd"
+                  defaultValue={initial?.org_name ?? undefined}
                 />
               </Field>
               <Field
@@ -128,6 +144,7 @@ export function NewFilingForm({
                   required
                   className={input}
                   placeholder="GB123456789000"
+                  defaultValue={initial?.eori_number ?? undefined}
                 />
               </Field>
             </div>
@@ -137,6 +154,7 @@ export function NewFilingForm({
                 required
                 className={input}
                 placeholder="Street, city, postcode, country"
+                defaultValue={initial?.business_address ?? undefined}
               />
             </Field>
             <div className="grid gap-4 sm:grid-cols-2">
@@ -146,6 +164,7 @@ export function NewFilingForm({
                   required
                   className={input}
                   placeholder="Jane Roaster"
+                  defaultValue={initial?.contact_name ?? undefined}
                 />
               </Field>
               <Field label="Contact email">
@@ -155,6 +174,7 @@ export function NewFilingForm({
                   required
                   className={input}
                   placeholder="jane@acme.com"
+                  defaultValue={initial?.contact_email ?? undefined}
                 />
               </Field>
             </div>
@@ -167,7 +187,12 @@ export function NewFilingForm({
             </h3>
             <div className="grid gap-4 sm:grid-cols-2">
               <Field label="Commodity">
-                <select name="commodity" required className={input} defaultValue="">
+                <select
+                  name="commodity"
+                  required
+                  className={input}
+                  defaultValue={initial?.commodity ?? ""}
+                >
                   <option value="" disabled>
                     Choose a commodity…
                   </option>
@@ -186,6 +211,7 @@ export function NewFilingForm({
                   name="hs_code"
                   className={input}
                   placeholder="0901.21"
+                  defaultValue={initial?.hs_code ?? undefined}
                 />
               </Field>
             </div>
@@ -195,6 +221,7 @@ export function NewFilingForm({
                 required
                 className={input}
                 placeholder="Roasted arabica coffee beans"
+                defaultValue={initial?.product_description ?? undefined}
               />
             </Field>
             <div className="grid gap-4 sm:grid-cols-2">
@@ -207,6 +234,7 @@ export function NewFilingForm({
                   required
                   className={input}
                   placeholder="12,000 kg"
+                  defaultValue={initial?.quantity ?? undefined}
                 />
               </Field>
               <Field label="Country of production">
@@ -215,6 +243,7 @@ export function NewFilingForm({
                   required
                   className={input}
                   placeholder="Colombia"
+                  defaultValue={initial?.country_of_production ?? undefined}
                 />
               </Field>
             </div>
@@ -223,6 +252,7 @@ export function NewFilingForm({
                 name="production_region"
                 className={input}
                 placeholder="Huila"
+                defaultValue={initial?.production_region ?? undefined}
               />
             </Field>
           </section>
@@ -385,6 +415,7 @@ export function NewFilingForm({
               rows={3}
               className={`${input} mt-3 resize-none`}
               placeholder="Deadlines, unusual supply chains, questions — anything that helps us prepare your pack."
+              defaultValue={initial?.notes ?? undefined}
             />
           </section>
 
@@ -395,7 +426,12 @@ export function NewFilingForm({
           >
             {pending ? (
               <>
-                <Loader2 className="h-4 w-4 animate-spin" /> Creating…
+                <Loader2 className="h-4 w-4 animate-spin" />{" "}
+                {mode === "edit" ? "Saving…" : "Creating…"}
+              </>
+            ) : mode === "edit" ? (
+              <>
+                Save changes <Check className="h-4 w-4" />
               </>
             ) : (
               <>

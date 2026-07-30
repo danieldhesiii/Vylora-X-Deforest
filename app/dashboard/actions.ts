@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs/server";
 import {
   createRequest,
+  updateRequestDetails,
   addDocument,
   getRequest,
   setStatus,
@@ -69,10 +70,9 @@ function parseRows<T extends Record<string, string>>(
     .filter((row) => keys.some((k) => row[k] !== ""));
 }
 
-export async function createFilingRequestAction(formData: FormData) {
-  const user = await requireUser();
+// Shared parsing for create + edit, so the two never drift apart.
+function parseFilingFields(formData: FormData) {
   const title = String(formData.get("title") ?? "").trim();
-  const notes = str(formData, "notes");
   if (!title) throw new Error("A title is required");
 
   const role = String(formData.get("role") ?? "") as FilingRole;
@@ -89,13 +89,11 @@ export async function createFilingRequestAction(formData: FormData) {
       ? parseRows(formData.get("dds_references"), emptyDdsReference)
       : [];
 
-  const req = await createRequest({
-    ownerId: user.id,
-    ownerEmail: user.email,
-    orgName: str(formData, "org_name"),
+  return {
     title,
-    notes,
+    notes: str(formData, "notes"),
     role,
+    orgName: str(formData, "org_name"),
     businessAddress: str(formData, "business_address"),
     eoriNumber: str(formData, "eori_number"),
     contactName: str(formData, "contact_name"),
@@ -108,7 +106,19 @@ export async function createFilingRequestAction(formData: FormData) {
     productionRegion: str(formData, "production_region"),
     suppliers,
     ddsReferences,
+  };
+}
+
+export async function createFilingRequestAction(formData: FormData) {
+  const user = await requireUser();
+  const fields = parseFilingFields(formData);
+
+  const req = await createRequest({
+    ownerId: user.id,
+    ownerEmail: user.email,
+    ...fields,
   });
+  const title = fields.title;
   const recipients = adminRecipients();
   if (recipients.length) {
     await sendEmail({
@@ -119,6 +129,21 @@ export async function createFilingRequestAction(formData: FormData) {
   }
   revalidatePath("/dashboard");
   redirect(`/dashboard/${req.id}`);
+}
+
+export async function updateFilingDetailsAction(formData: FormData) {
+  const user = await requireUser();
+  const requestId = String(formData.get("request_id") ?? "");
+  const req = await getRequest(requestId);
+  if (!req) throw new Error("Filing request not found");
+  if (req.owner_id !== user.id && !user.isAdmin) throw new Error("Not allowed");
+
+  const fields = parseFilingFields(formData);
+  await updateRequestDetails(requestId, user.email ?? user.id, fields);
+
+  revalidatePath(`/dashboard/${requestId}`);
+  revalidatePath("/dashboard");
+  redirect(`/dashboard/${requestId}`);
 }
 
 export async function uploadClientDocumentAction(formData: FormData) {

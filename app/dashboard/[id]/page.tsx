@@ -9,6 +9,7 @@ import {
   Inbox,
   MapPin,
   PackageCheck,
+  Pencil,
   ShieldCheck,
 } from "lucide-react";
 import { DashboardHeader } from "@/components/dashboard/header";
@@ -70,7 +71,16 @@ export default async function FilingDetailPage({
               {admin && request.owner_email ? ` · ${request.owner_email}` : ""}
             </p>
           </div>
-          <StatusBadge status={request.status} />
+          <div className="flex shrink-0 items-center gap-3">
+            <Link
+              href={`/dashboard/${request.id}/edit`}
+              className="inline-flex items-center gap-1.5 rounded-full border border-forest/20 bg-paper px-4 py-2 text-sm font-medium text-forest transition-colors hover:border-signal/40 hover:text-signal"
+            >
+              <Pencil className="h-3.5 w-3.5" />
+              Edit details
+            </Link>
+            <StatusBadge status={request.status} />
+          </div>
         </div>
 
         {request.notes && (
