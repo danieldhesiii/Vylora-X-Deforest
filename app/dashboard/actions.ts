@@ -153,7 +153,8 @@ export async function uploadClientDocumentAction(formData: FormData) {
   if (!req) throw new Error("Filing request not found");
   if (req.owner_id !== user.id && !user.isAdmin) throw new Error("Not allowed");
 
-  for (const file of filesFrom(formData)) {
+  const files = filesFrom(formData);
+  for (const file of files) {
     await addDocument({
       filingRequestId: requestId,
       ownerId: req.owner_id,
@@ -162,6 +163,24 @@ export async function uploadClientDocumentAction(formData: FormData) {
       actor: user.email ?? user.id,
     });
   }
+
+  // Notify the team whenever a client adds documents — not just on the
+  // initial filing. Skip when an admin uploads (they don't need to email
+  // themselves).
+  if (files.length > 0 && !user.isAdmin) {
+    const recipients = adminRecipients();
+    if (recipients.length) {
+      const n = files.length;
+      await sendEmail({
+        to: recipients,
+        subject: `New documents on Deforest filing: ${req.title}`,
+        text: `${user.email ?? "A client"} uploaded ${n} document${
+          n > 1 ? "s" : ""
+        } to "${req.title}".\n\nReview it: ${appUrl(`/dashboard/${req.id}`)}`,
+      });
+    }
+  }
+
   revalidatePath(`/dashboard/${requestId}`);
 }
 
