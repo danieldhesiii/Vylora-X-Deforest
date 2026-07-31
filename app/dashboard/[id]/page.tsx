@@ -20,6 +20,7 @@ import {
   formatBytes,
   ROLE_LABEL,
   STATUS_LABEL,
+  type FilingDocument,
   type FilingRequest,
   type FilingStatus,
 } from "@/lib/filing-types";
@@ -91,99 +92,108 @@ export default async function FilingDetailPage({
 
         <ConsignmentDetails request={request} />
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-2 lg:items-start">
-          {/* Client documents */}
-          <section className="rounded-4xl border border-forest/10 bg-paper-soft p-6 shadow-soft">
-            <div className="flex items-center gap-2 text-forest">
-              <Inbox className="h-5 w-5 text-moss" />
-              <h2 className="font-display text-lg font-semibold">Your documents</h2>
-            </div>
-            <p className="mt-1 text-sm text-muted">
-              Upload supplier geolocation (GeoJSON/KML), statements, invoices and
-              any supporting files.
-            </p>
+        {admin ? (
+          <>
+            <ClientUploads documents={uploads} />
+            <AdminPanel
+              requestId={request.id}
+              status={request.status}
+              deliveries={deliveries}
+            />
+          </>
+        ) : (
+          <div className="mt-8 grid gap-6 lg:grid-cols-2 lg:items-start">
+            {/* Client documents */}
+            <section className="rounded-4xl border border-forest/10 bg-paper-soft p-6 shadow-soft">
+              <div className="flex items-center gap-2 text-forest">
+                <Inbox className="h-5 w-5 text-moss" />
+                <h2 className="font-display text-lg font-semibold">Your documents</h2>
+              </div>
+              <p className="mt-1 text-sm text-muted">
+                Upload supplier geolocation (GeoJSON/KML), statements, invoices and
+                any supporting files.
+              </p>
 
-            {uploads.length > 0 && (
-              <ul className="mt-5 space-y-2">
-                {uploads.map((d) => (
-                  <li
-                    key={d.id}
-                    className="flex items-center justify-between gap-3 rounded-2xl border border-forest/10 bg-paper px-4 py-3"
-                  >
-                    <div className="flex min-w-0 items-center gap-2.5">
-                      <FileText className="h-4 w-4 shrink-0 text-moss" />
-                      <span className="truncate text-sm text-forest/85">{d.file_name}</span>
-                    </div>
-                    <div className="flex shrink-0 items-center gap-3">
-                      <span className="text-xs text-faint">{formatBytes(d.size_bytes)}</span>
+              {uploads.length > 0 && (
+                <ul className="mt-5 space-y-2">
+                  {uploads.map((d) => (
+                    <li
+                      key={d.id}
+                      className="flex items-center justify-between gap-3 rounded-2xl border border-forest/10 bg-paper px-4 py-3"
+                    >
+                      <div className="flex min-w-0 items-center gap-2.5">
+                        <FileText className="h-4 w-4 shrink-0 text-moss" />
+                        <span className="truncate text-sm text-forest/85">{d.file_name}</span>
+                      </div>
+                      <div className="flex shrink-0 items-center gap-3">
+                        <span className="text-xs text-faint">{formatBytes(d.size_bytes)}</span>
+                        <a
+                          href={`/api/filings/download/${d.id}`}
+                          className="text-muted transition-colors hover:text-forest"
+                          aria-label={`Download ${d.file_name}`}
+                        >
+                          <Download className="h-4 w-4" />
+                        </a>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              <div className="mt-5">
+                <UploadForm
+                  action={uploadClientDocumentAction}
+                  requestId={request.id}
+                  label="Upload documents"
+                  tone="signal"
+                />
+              </div>
+            </section>
+
+            {/* Filing pack (deliveries) */}
+            <section className="rounded-4xl border border-forest/10 bg-paper-soft p-6 shadow-soft">
+              <div className="flex items-center gap-2 text-forest">
+                <PackageCheck className="h-5 w-5 text-signal" />
+                <h2 className="font-display text-lg font-semibold">Your filing pack</h2>
+              </div>
+              <p className="mt-1 text-sm text-muted">
+                Once we&apos;ve prepared your pack it appears here to download, then
+                you submit it in TRACES yourself.
+              </p>
+
+              {deliveries.length > 0 ? (
+                <ul className="mt-5 space-y-2">
+                  {deliveries.map((d) => (
+                    <li
+                      key={d.id}
+                      className="flex items-center justify-between gap-3 rounded-2xl border border-clear/20 bg-clear/[0.06] px-4 py-3"
+                    >
+                      <div className="flex min-w-0 items-center gap-2.5">
+                        <FileText className="h-4 w-4 shrink-0 text-clear" />
+                        <span className="truncate text-sm text-forest/85">{d.file_name}</span>
+                      </div>
                       <a
                         href={`/api/filings/download/${d.id}`}
-                        className="text-muted transition-colors hover:text-forest"
-                        aria-label={`Download ${d.file_name}`}
+                        className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-signal px-3.5 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-signal-bright"
                       >
-                        <Download className="h-4 w-4" />
+                        <Download className="h-3.5 w-3.5" />
+                        Download
                       </a>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            <div className="mt-5">
-              <UploadForm
-                action={uploadClientDocumentAction}
-                requestId={request.id}
-                label="Upload documents"
-                tone="signal"
-              />
-            </div>
-          </section>
-
-          {/* Filing pack (deliveries) */}
-          <section className="rounded-4xl border border-forest/10 bg-paper-soft p-6 shadow-soft">
-            <div className="flex items-center gap-2 text-forest">
-              <PackageCheck className="h-5 w-5 text-signal" />
-              <h2 className="font-display text-lg font-semibold">Your filing pack</h2>
-            </div>
-            <p className="mt-1 text-sm text-muted">
-              Once we&apos;ve prepared your pack it appears here to download, then
-              you submit it in TRACES yourself.
-            </p>
-
-            {deliveries.length > 0 ? (
-              <ul className="mt-5 space-y-2">
-                {deliveries.map((d) => (
-                  <li
-                    key={d.id}
-                    className="flex items-center justify-between gap-3 rounded-2xl border border-clear/20 bg-clear/[0.06] px-4 py-3"
-                  >
-                    <div className="flex min-w-0 items-center gap-2.5">
-                      <FileText className="h-4 w-4 shrink-0 text-clear" />
-                      <span className="truncate text-sm text-forest/85">{d.file_name}</span>
-                    </div>
-                    <a
-                      href={`/api/filings/download/${d.id}`}
-                      className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-signal px-3.5 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-signal-bright"
-                    >
-                      <Download className="h-3.5 w-3.5" />
-                      Download
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <div className="mt-5 flex flex-col items-center justify-center rounded-2xl border border-dashed border-forest/20 bg-paper p-8 text-center">
-                <ShieldCheck className="h-7 w-7 text-sage" />
-                <p className="mt-3 text-sm text-muted">
-                  Nothing to download yet. We&apos;ll notify you when your pack is
-                  ready.
-                </p>
-              </div>
-            )}
-          </section>
-        </div>
-
-        {admin && <AdminPanel requestId={request.id} status={request.status} />}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="mt-5 flex flex-col items-center justify-center rounded-2xl border border-dashed border-forest/20 bg-paper p-8 text-center">
+                  <ShieldCheck className="h-7 w-7 text-sage" />
+                  <p className="mt-3 text-sm text-muted">
+                    Nothing to download yet. We&apos;ll notify you when your pack is
+                    ready.
+                  </p>
+                </div>
+              )}
+            </section>
+          </div>
+        )}
       </div>
     </main>
   );
@@ -329,12 +339,74 @@ function ConsignmentDetails({ request }: { request: FilingRequest }) {
   );
 }
 
+/** Admin-only, read-only view of everything the client has sent us. */
+function ClientUploads({ documents }: { documents: FilingDocument[] }) {
+  return (
+    <section className="mt-8 rounded-4xl border border-forest/10 bg-paper-soft p-6 shadow-soft">
+      <div className="flex items-center gap-2 text-forest">
+        <Inbox className="h-5 w-5 text-moss" />
+        <h2 className="font-display text-lg font-semibold">
+          Client uploads
+          <span className="ml-2 rounded-full bg-moss/10 px-2 py-0.5 text-xs font-semibold text-moss">
+            {documents.length}
+          </span>
+        </h2>
+      </div>
+      <p className="mt-1 text-sm text-muted">
+        Everything this client has submitted for the filing. Download these to
+        build their pack.
+      </p>
+
+      {documents.length > 0 ? (
+        <ul className="mt-5 space-y-2">
+          {documents.map((d) => (
+            <li
+              key={d.id}
+              className="flex items-center justify-between gap-3 rounded-2xl border border-forest/10 bg-paper px-4 py-3"
+            >
+              <div className="flex min-w-0 items-center gap-2.5">
+                <FileText className="h-4 w-4 shrink-0 text-moss" />
+                <div className="min-w-0">
+                  <p className="truncate text-sm text-forest/85">{d.file_name}</p>
+                  <p className="mt-0.5 text-xs text-faint">
+                    {d.kind ? `${d.kind} · ` : ""}
+                    {formatBytes(d.size_bytes)}
+                    {d.size_bytes ? " · " : ""}
+                    {new Date(d.created_at).toLocaleDateString("en-GB")}
+                    {d.uploaded_by ? ` · ${d.uploaded_by}` : ""}
+                  </p>
+                </div>
+              </div>
+              <a
+                href={`/api/filings/download/${d.id}`}
+                className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-forest/20 bg-paper px-3.5 py-1.5 text-xs font-semibold text-forest transition-colors hover:border-signal/40 hover:text-signal"
+              >
+                <Download className="h-3.5 w-3.5" />
+                Download
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div className="mt-5 flex flex-col items-center justify-center rounded-2xl border border-dashed border-forest/20 bg-paper p-8 text-center">
+          <Inbox className="h-7 w-7 text-sage" />
+          <p className="mt-3 text-sm text-muted">
+            This client hasn&apos;t uploaded any documents yet.
+          </p>
+        </div>
+      )}
+    </section>
+  );
+}
+
 function AdminPanel({
   requestId,
   status,
+  deliveries,
 }: {
   requestId: string;
   status: FilingStatus;
+  deliveries: FilingDocument[];
 }) {
   const statuses: FilingStatus[] = [
     "submitted",
@@ -343,7 +415,7 @@ function AdminPanel({
     "closed",
   ];
   return (
-    <section className="mt-8 rounded-4xl border border-moss/30 bg-forest p-6 text-paper-soft shadow-lift sm:p-7">
+    <section className="mt-6 rounded-4xl border border-moss/30 bg-forest p-6 text-paper-soft shadow-lift sm:p-7">
       <div className="flex items-center gap-2">
         <ShieldCheck className="h-5 w-5 text-signal-soft" />
         <h2 className="font-display text-lg font-semibold text-paper-soft">
@@ -354,6 +426,41 @@ function AdminPanel({
         Upload the finished TRACES pack. Delivering a file sets the status to
         &quot;Pack ready&quot; and makes it downloadable for the client.
       </p>
+
+      {deliveries.length > 0 && (
+        <div className="mt-5 rounded-3xl border border-white/10 bg-white/[0.04] p-5">
+          <p className="text-sm font-medium text-paper-soft/80">
+            Already delivered ({deliveries.length})
+          </p>
+          <ul className="mt-3 space-y-2">
+            {deliveries.map((d) => (
+              <li
+                key={d.id}
+                className="flex items-center justify-between gap-3 rounded-2xl bg-white/[0.06] px-4 py-2.5"
+              >
+                <div className="flex min-w-0 items-center gap-2.5">
+                  <PackageCheck className="h-4 w-4 shrink-0 text-signal-soft" />
+                  <span className="truncate text-sm text-paper-soft/90">
+                    {d.file_name}
+                  </span>
+                </div>
+                <div className="flex shrink-0 items-center gap-3">
+                  <span className="text-xs text-paper-soft/50">
+                    {new Date(d.created_at).toLocaleDateString("en-GB")}
+                  </span>
+                  <a
+                    href={`/api/filings/download/${d.id}`}
+                    className="text-paper-soft/60 transition-colors hover:text-paper-soft"
+                    aria-label={`Download ${d.file_name}`}
+                  >
+                    <Download className="h-4 w-4" />
+                  </a>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <div className="mt-5 grid gap-6 lg:grid-cols-2">
         <div className="rounded-3xl bg-paper-soft p-5">
