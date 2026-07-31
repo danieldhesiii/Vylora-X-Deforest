@@ -5,7 +5,6 @@ import { ArrowLeft } from "lucide-react";
 import { DashboardHeader } from "@/components/dashboard/header";
 import { NewFilingForm } from "@/components/dashboard/new-filing-form";
 import { getRequest } from "@/lib/filings";
-import { isAdminEmail } from "@/lib/admin";
 import { updateFilingDetailsAction } from "../../actions";
 
 export default async function EditFilingPage({
@@ -16,15 +15,16 @@ export default async function EditFilingPage({
   const { id } = await params;
   const user = await currentUser();
   const email = user?.primaryEmailAddress?.emailAddress ?? null;
-  const admin = isAdminEmail(email);
 
   const request = await getRequest(id);
   if (!request) notFound();
-  if (request.owner_id !== user?.id && !admin) notFound();
+  // Only the client who submitted the filing may edit it — see
+  // updateFilingDetailsAction.
+  if (request.owner_id !== user?.id) notFound();
 
   return (
     <main className="min-h-screen bg-paper">
-      <DashboardHeader admin={admin} />
+      <DashboardHeader />
       <div className="mx-auto max-w-3xl px-5 py-10 sm:px-8">
         <Link
           href={`/dashboard/${id}`}

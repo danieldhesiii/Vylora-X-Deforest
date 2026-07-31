@@ -73,13 +73,15 @@ export default async function FilingDetailPage({
             </p>
           </div>
           <div className="flex shrink-0 items-center gap-3">
-            <Link
-              href={`/dashboard/${request.id}/edit`}
-              className="inline-flex items-center gap-1.5 rounded-full border border-forest/20 bg-paper px-4 py-2 text-sm font-medium text-forest transition-colors hover:border-signal/40 hover:text-signal"
-            >
-              <Pencil className="h-3.5 w-3.5" />
-              Edit details
-            </Link>
+            {!admin && (
+              <Link
+                href={`/dashboard/${request.id}/edit`}
+                className="inline-flex items-center gap-1.5 rounded-full border border-forest/20 bg-paper px-4 py-2 text-sm font-medium text-forest transition-colors hover:border-signal/40 hover:text-signal"
+              >
+                <Pencil className="h-3.5 w-3.5" />
+                Edit details
+              </Link>
+            )}
             <StatusBadge status={request.status} />
           </div>
         </div>

@@ -136,7 +136,9 @@ export async function updateFilingDetailsAction(formData: FormData) {
   const requestId = String(formData.get("request_id") ?? "");
   const req = await getRequest(requestId);
   if (!req) throw new Error("Filing request not found");
-  if (req.owner_id !== user.id && !user.isAdmin) throw new Error("Not allowed");
+  // Client-submitted details are the client's own declaration — the Deforest
+  // team prepares the pack from them but must never rewrite them.
+  if (req.owner_id !== user.id) throw new Error("Not allowed");
 
   const fields = parseFilingFields(formData);
   await updateRequestDetails(requestId, user.email ?? user.id, fields);
