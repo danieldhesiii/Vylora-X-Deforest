@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { currentUser } from "@clerk/nextjs/server";
 import { ArrowRight, FolderOpen, Info } from "lucide-react";
 import { DashboardHeader } from "@/components/dashboard/header";
@@ -13,13 +14,15 @@ export default async function DashboardPage() {
   const user = await currentUser();
   const firstName = user?.firstName ?? "there";
   const email = user?.primaryEmailAddress?.emailAddress ?? null;
-  const admin = isAdminEmail(email);
+  // The Deforest team doesn't file on its own behalf — send them to the
+  // all-submissions inbox rather than a client filing form.
+  if (isAdminEmail(email)) redirect("/admin");
   const configured = supabaseConfigured();
   const requests = configured && user ? await listRequestsForOwner(user.id) : [];
 
   return (
     <main className="min-h-screen bg-paper">
-      <DashboardHeader admin={admin} />
+      <DashboardHeader />
       <div className="mx-auto max-w-6xl px-5 py-10 sm:px-8">
         <h1 className="font-display text-3xl font-semibold tracking-tight text-forest">
           Welcome back, {firstName}.
